@@ -4,16 +4,15 @@
  * @param {jscodeshiftApi} j jscodeshift API
  * @param {Array} body Array of `Node`
  */
-export default function annotateConstructor(j, body, name = 'Props') {
-  let constructorIndex;
+export default function annotateConstructor(j, classNode, name = 'Props') {
+  const body = classNode.value.body && classNode.value.body.body;
   const typeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(j.identifier(name), null)
   );
 
+  // Add props to constructor if present
   body.some((b, i) => {
     if (b.kind === 'constructor') {
-      constructorIndex = i + 1;
-
       // first parameter is always props regardless of name
       if (b.value.params && b.value.params.length) {
         b.value.params[0].typeAnnotation = typeAnnotation;
@@ -22,9 +21,6 @@ export default function annotateConstructor(j, body, name = 'Props') {
     }
   });
 
-  body.splice(
-    constructorIndex,
-    0,
-    j.classProperty(j.identifier('props'), null, typeAnnotation)
-  );
+  // Add type annotation to class
+  classNode.value.superClass.property.typeAnnotation = `<${name}>`;
 }
