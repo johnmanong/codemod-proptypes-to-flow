@@ -11,12 +11,12 @@ function addFlowComment(j, ast, options) {
 
   if (!containsFlowComment) {
     switch (options.flowComment) {
-      case 'line':
-        comments.unshift(j.commentLine(' @flow'));
-        break;
       case 'block':
-      default:
         comments.unshift(j.commentBlock(' @flow '));
+        break;
+      case 'line':
+      default:
+        comments.unshift(j.commentLine(' @flow'));
         break;
     }
   }
@@ -37,7 +37,7 @@ export default function transformer(file, api, rawOptions) {
       console.warn('Supported options are "block" and "line".');
       console.warn('Falling back to default: "block".');
     }
-    options.flowComment = 'block';
+    options.flowComment = 'line';
   }
   if (!options.propsTypeSuffix) {
     options.propsTypeSuffix = 'Props';
