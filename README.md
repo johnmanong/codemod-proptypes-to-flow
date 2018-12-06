@@ -1,12 +1,9 @@
+Removes `React.PropTypes` and attempts to transform to [Flow](http://flow.org/). 
 
-
-
-# codemod-proptypes-to-flow [![Build Status](https://travis-ci.org/billyvg/codemod-proptypes-to-flow.svg?branch=master)](https://travis-ci.org/billyvg/codemod-proptypes-to-flow) [![codecov](https://codecov.io/gh/billyvg/codemod-proptypes-to-flow/branch/master/graph/badge.svg)](https://codecov.io/gh/billyvg/codemod-proptypes-to-flow)
-
-Removes `React.PropTypes` and attempts to transform to [Flow](http://flow.org/).
+Oscar Specific fork.
 
 ### Setup & Run
-  * `npm install -g jscodeshift@0.5.1`
+  * `npm install -g jscodeshift@0.3.30` (matches package.json in data/)
   * `git clone https://github.com/johnmanong/codemod-proptypes-to-flow`
   * `jscodeshift -t codemod-proptypes-to-flow/src/index.js <path>`
   * Use the `-d` option for a dry-run and use `-p` to print the output
