@@ -6,9 +6,8 @@
  */
 export default function annotateConstructor(j, classNode, name = 'Props') {
   const body = classNode.value.body && classNode.value.body.body;
-  const typeAnnotation = j.typeAnnotation(
-    j.genericTypeAnnotation(j.identifier(name), null)
-  );
+  const genericTypeAnnotation = j.genericTypeAnnotation(j.identifier(name), null)
+  const typeAnnotation = j.typeAnnotation(genericTypeAnnotation);
 
   // Add props to constructor if present
   body.some((b, i) => {
@@ -22,5 +21,7 @@ export default function annotateConstructor(j, classNode, name = 'Props') {
   });
 
   // Add type annotation to class
-  classNode.value.superClass.property.typeAnnotation = `<${name}>`;
+  if (classNode.value.superClass && !classNode.value.superTypeParameters) {
+      classNode.value.superTypeParameters = j.typeParameterInstantiation([genericTypeAnnotation]);
+  }
 }
